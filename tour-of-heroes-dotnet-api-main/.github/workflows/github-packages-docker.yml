@@ -8,16 +8,15 @@ on:
       - "build/docker/**"
 
 jobs:
-  build:   
+  build:
     runs-on: ubuntu-latest
     steps:
-    
       - uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Login GitHub Packages
         uses: docker/login-action@v3
         with:
@@ -28,9 +27,9 @@ jobs:
         id: vars
         run: echo ::set-output name=tag::$(echo ${GITHUB_SHA::7})
       - uses: docker/build-push-action@v6
-        with:         
+        with:
           context: src
-          file: build/docker/Dockerfile          
+          file: build/docker/Dockerfile
           platforms: linux/amd64, linux/arm64
           push: true
-          tags: ghcr.io/0gis0/tour-of-heroes-dotnet-api/tour-of-heroes-api:${{ steps.vars.outputs.tag }}
+          tags: ghcr.io/farroupefreeit/tour-of-heroes-dotnet-api/tour-of-heroes-api:${{ steps.vars.outputs.tag }}
